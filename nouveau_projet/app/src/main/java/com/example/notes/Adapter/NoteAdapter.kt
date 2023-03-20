@@ -19,7 +19,7 @@ class NoteAdapter(private val context: Context, private val listener: NotesItemC
     private val fullList=ArrayList<Note>()
 
 
-            //lors de la creation du viewholder
+    //lors de la creation du viewholder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): noteViewHolder {
         return noteViewHolder(
             LayoutInflater.from(context).inflate(R.layout.list_item, parent,false)

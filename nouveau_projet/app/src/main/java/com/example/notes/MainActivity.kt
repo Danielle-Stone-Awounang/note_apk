@@ -22,16 +22,17 @@ import com.example.notes.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), NoteAdapter.NotesItemClickListener, PopupMenu.OnMenuItemClickListener {
 
-    private lateinit var biding:ActivityMainBinding
+    private lateinit var binding:ActivityMainBinding
     private lateinit var  database:NoteDatabase
     lateinit var viewModel: NoteViewModel
     lateinit var  adapter:NoteAdapter
     lateinit var selectedNoted: Note
 
     private  val updateNote = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){result ->
-        if(result.resultCode == Activity.RESULT_OK){
+        if(result.resultCode == RESULT_OK){
             val note = result.data?.getSerializableExtra("note") as? Note
             if(note != null){
+
                 viewModel.updateNote(note)
             }
         }
@@ -39,7 +40,7 @@ class MainActivity : AppCompatActivity(), NoteAdapter.NotesItemClickListener, Po
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        biding=ActivityMainBinding.inflate(layoutInflater)
+        binding=ActivityMainBinding.inflate(layoutInflater)
         setContentView(R.layout.activity_main)
 
         //initialisatio du UI
@@ -58,14 +59,14 @@ class MainActivity : AppCompatActivity(), NoteAdapter.NotesItemClickListener, Po
     }
 
     private fun UnitUI() {
-        biding.recyclerView.setHasFixedSize(true)
-        biding.recyclerView.layoutManager = StaggeredGridLayoutManager(
+        binding.recyclerView.setHasFixedSize(true)
+        binding.recyclerView.layoutManager = StaggeredGridLayoutManager(
             2,LinearLayout.VERTICAL )
         adapter = NoteAdapter(this,this)
-        biding.recyclerView.adapter=adapter
+        binding.recyclerView.adapter=adapter
 
         val getContent = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){result->
-            if(result.resultCode== Activity.RESULT_OK){
+            if(result.resultCode== RESULT_OK){
                 val note = result.data?.getSerializableExtra("note") as? Note
 
                 if(note!=null){
@@ -74,12 +75,12 @@ class MainActivity : AppCompatActivity(), NoteAdapter.NotesItemClickListener, Po
             }
         }
 
-        biding.addNote.setOnClickListener{
+        binding.addNote.setOnClickListener{
             val intent = Intent(this, AddNote::class.java)
             getContent.launch(intent)
         }
 
-        biding.searchView.setOnQueryTextListener(object:SearchView.OnQueryTextListener{
+        binding.searchView.setOnQueryTextListener(object:SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(p0: String?): Boolean {
                 return false
             }
